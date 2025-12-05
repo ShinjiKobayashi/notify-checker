@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Cona</string>
+    <string name="service_name">Cona Notification Service</string>
+</resources>
