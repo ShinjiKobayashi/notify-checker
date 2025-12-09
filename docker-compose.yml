@@ -1,6 +1,9 @@
 services:
   redroid:
-    image: redroid/redroid:android14.0.0-latest
+    build:
+      context: .
+      dockerfile: Dockerfile.redroid
+    image: cona-redroid-custom
     container_name: cona-redroid
     privileged: true
     ports:
@@ -8,6 +11,28 @@ services:
     volumes:
       - ./data:/data
     restart: unless-stopped
+
+  scrcpy-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.scrcpy
+    container_name: cona-scrcpy-web
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redroid
+    environment:
+      - WS_SCRCPY_ADB_REMOTE=redroid:5555
+    restart: unless-stopped
+
+  installer:
+    build:
+      context: .
+      dockerfile: Dockerfile.installer
+    container_name: cona-installer
+    depends_on:
+      - redroid
+    restart: on-failure:5 # Run until success (Teams installed)
 
   builder:
     build: .
