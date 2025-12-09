@@ -1,0 +1,10 @@
+FROM ubuntu:22.04
+
+# Install adb and curl
+RUN apt-get update && apt-get install -y adb curl && rm -rf /var/lib/apt/lists/*
+
+# Copy the installation script
+COPY scripts/install_teams.sh /install_teams.sh
+RUN chmod +x /install_teams.sh
+
+CMD ["/install_teams.sh"]

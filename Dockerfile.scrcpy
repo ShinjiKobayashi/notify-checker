@@ -1,0 +1,28 @@
+FROM node:18-bullseye
+
+# Install dependencies (adb is required for ws-scrcpy server side)
+RUN apt-get update && apt-get install -y \
+    android-tools-adb \
+    git \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Clone ws-scrcpy
+WORKDIR /app
+RUN git clone https://github.com/NetrisTV/ws-scrcpy.git . && \
+    git checkout v0.8.1
+
+# Install dependencies
+RUN npm install
+
+# Expose port
+EXPOSE 8000
+
+# Copy startup script
+COPY scripts/start_scrcpy.sh /start.sh
+RUN chmod +x /start.sh
+
+# Start
+CMD ["/start.sh"]
