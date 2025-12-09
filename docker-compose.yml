@@ -1,0 +1,21 @@
+services:
+  redroid:
+    image: redroid/redroid:android14.0.0-latest
+    container_name: cona-redroid
+    privileged: true
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+
+  builder:
+    build: .
+    container_name: cona-builder
+    volumes:
+      - .:/app
+      - gradle_cache:/home/gradle/.gradle
+    command: gradle assembleDebug
+
+volumes:
+  gradle_cache:

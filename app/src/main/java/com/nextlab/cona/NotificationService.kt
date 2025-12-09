@@ -30,7 +30,7 @@ class NotificationService : NotificationListenerService() {
         Log.d(TAG, "Notification received from: $packageName, Title: $title, Text: $text")
 
         // Auto-reply logic
-        if (text != null && !text.contains("Auto reply")) {
+        if (packageName != this.packageName && text != null && !text.contains("Auto reply")) {
             replyToNotification(sbn)
         }
     }
