@@ -1,0 +1,21 @@
+# Config for mautrix-go appservice
+homeserver:
+  address: "https://matrix.example.com"
+  domain: "example.com"
+
+appservice:
+  address: "http://0.0.0.0:8090"
+  hostname: "bridge"
+  port: 8090
+
+  database:
+    type: sqlite3
+    uri: bridge.db
+
+  id: teams-bridge
+  bot:
+    username: teams_bot
+    displayname: Teams Bridge Bot
+
+  as_token: "replace_with_random_string"
+  hs_token: "replace_with_random_string"
