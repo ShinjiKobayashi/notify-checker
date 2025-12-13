@@ -1,0 +1,15 @@
+# Example Registration File
+# You must generate a unique token and register this with your Matrix Homeserver.
+id: teams-bridge
+url: http://bridge:8090
+as_token: "replace_with_random_string"
+hs_token: "replace_with_random_string"
+sender_localpart: teams_bot
+namespaces:
+  users:
+    - exclusive: true
+      regex: "@teams_.*"
+  aliases:
+    - exclusive: true
+      regex: "#teams_.*"
+  rooms: []

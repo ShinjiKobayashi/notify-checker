@@ -8,6 +8,7 @@ services:
     privileged: true
     ports:
       - "5555:5555"
+      - "8080:8080" # Expose BridgeServer if needed for host access, but bridge uses internal net
     volumes:
       - ./data:/data
     restart: unless-stopped
@@ -41,6 +42,23 @@ services:
       - .:/app
       - gradle_cache:/home/gradle/.gradle
     command: gradle assembleDebug
+
+  bridge:
+    build:
+      context: ./bridge
+    container_name: cona-bridge
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./bridge/config.yaml:/app/config.yaml
+      - ./bridge/registration.yaml:/app/registration.yaml
+    environment:
+      - MATRIX_USER_ID=@user:example.com
+      - MATRIX_HOMESERVER_URL=https://matrix.example.com
+      - MATRIX_DOMAIN=example.com
+    depends_on:
+      - redroid
+    restart: unless-stopped
 
 volumes:
   gradle_cache:
